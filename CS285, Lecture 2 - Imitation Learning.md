@@ -87,9 +87,42 @@ $p_\theta(s_t)=(1-\epsilon)^tp_{train}(s_t)+(1-(1-e)^t))p_{mistake}(s_t)$
 so $$|p_\theta(s_t) - p_{train}(s_t)|=(1-(1-\epsilon)^t)|p_{mistake}(s_t)-p_{train}(s_t)|\leq 2(1-(1-\epsilon)^t)\leq 2\epsilon t$$
 useful identity: $(1-\epsilon)^t\geq 1-\epsilon t\ \text{for}\ \epsilon\in[0, 1]$
 
-so we get
+so we get for the upper bound.
 
 ![[Screenshot 2026-02-06 at 2.07.30 AM.png]]
+
+$\sim$ This is however kinda pessimistic as an upper bound. Because in reality we can recover from mistakes. Doesn't mean *imitation learning* will allow us to do that.
+
+How can we address this problem? 
+- Be smart about collecting and augmenting data
+- Use powerful models that make very few mistakes
+- Use multi-task learning
+- Change the algorithm
+
+What makes behavioural cloning easy and what makes it hard?
+-> Intentionally add mistakes and corrections, mistakes hurt but corrections often help more +++ - -
+-> Data augmentation --> Add fake data that illustrates corrections (eg. side facing cameras)
+
+Why might we fail to fit the expert?
+1. Non-markovian behaviour,
+	If we see the same thing twice, we do the same thing twice, regardless of what happened before. $\pi_\theta(a_t|o_t)$ this is often very unnatural for human demonstrators, we tend to mix shit up quite a bit $\pi_\theta(a_t|o_1, \dots, o_t)$
+2. Multimodal behaviour
+	 multimodal behaviours with maximal likelihood, where you can have multiple best options, may lead to maximising the average,  which the expert may not choose to do. We need more expressive continuous distributions, or discretization with high dim action spaces
+
+How do we solve (2)?
+1. Expressive continuous distributions,
+	1. We can use mixture of different gaussians for this, you pick one gaussian according to some weights $w_i$ that sum up to 1, then sample from that specific gaussian. $\pi(a|o)=\sum_i w_i \mathcal N (\mu_i, \sum_i)$
+	2. We can also use latent variable models, (best exampl.e is conditional VAE's) --> Prob. model that introduces an extra *hidden* random variable *z* so that output is generated in two steps, first sample $z$ then sample observed variable given $z-$ will learn more about this later.
+	3. Diffusion models - Model learns to reverse a noising process, add gaussian noise to data until its almost pure noise, then train model to iteratively de-noise and recover realistic samples.
+2. Discretization - turn continuous action into finite set of bins, to turn regression into a classification problem -- >Computationally expensive for higher dim discretize in one dim.
+
+Question: Does learning many tasks become easier?
+(Bitter lesson pilled fr)
+
+![[Screenshot 2026-02-06 at 3.49.54 AM.png]]
+
+
+
 
 ---
 
