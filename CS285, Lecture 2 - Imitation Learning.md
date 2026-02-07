@@ -99,6 +99,8 @@ How can we address this problem?
 - Use multi-task learning
 - Change the algorithm
 
+# Part III
+
 What makes behavioural cloning easy and what makes it hard?
 -> Intentionally add mistakes and corrections, mistakes hurt but corrections often help more +++ - -
 -> Data augmentation --> Add fake data that illustrates corrections (eg. side facing cameras)
@@ -116,11 +118,40 @@ How do we solve (2)?
 	3. Diffusion models - Model learns to reverse a noising process, add gaussian noise to data until its almost pure noise, then train model to iteratively de-noise and recover realistic samples.
 2. Discretization - turn continuous action into finite set of bins, to turn regression into a classification problem -- >Computationally expensive for higher dim discretize in one dim.
 
+# Part IV
+
 Question: Does learning many tasks become easier?
 (Bitter lesson pilled fr)
 
-![[Screenshot 2026-02-06 at 3.49.54 AM.png]]
+![[Screenshot 2026-02-07 at 5.32.58 AM.png]]
 
+$\pi_\theta(a|s)$ vs $\pi_\theta(a|s, p)$, why is this useful? Well it's just much easier to get data for (2)! It also makes it so that your algo learns to solve the more general problem, rather than the easy problem.
+
+![[Screenshot 2026-02-07 at 5.35.34 AM.png]]
+
+> State space & Goal space
+
+# Part V
+We'll use *DAgger*. Which is a more principled solution to the imitation learning distributional shift problem.
+
+> ILDS problem --> policy makes small mistakes close to training data, finds itself in unfamiliar states --> makes larger mistakes --> snowballs 
+
+So far we've tried to keep $p_{\pi_{\theta}}$ close to $p_{data}$, can we go other way around so $p_{data}$ to better cover the states the policy actually visits?
+
+How to make $p_{data}(o_t)=p_{\pi_\theta}$?
+
+## DAgger: Dataset Aggregation
+So we run our model in the real world, collect data from $p_{\pi_\theta}$ and label it using a person, so slowly our $p_{data}$ shifts to $p_{\pi_\theta}$
+
+![[Screenshot 2026-02-07 at 5.43.42 AM.png]]
+
+
+Step 3 is quite problematic, since it may not always be natural for humans. Labelling might not be as natural as the actual actions people may take.
+
+## What's the problem with imitation learning?
+- Data gathering using humans is not super-scaleable.
+- Humans are not good at providing some kinds of actions.
+- Humans can learn autonomously, can our machines do the same? (Emergent behaviours are the most interesting, behaviours *better* than what humans can do? Continuous self improvement wenn)
 
 
 
