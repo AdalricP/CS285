@@ -67,6 +67,55 @@ RL is all about optimising expectations. We'll talk about a lot of things, but i
 
 (seems like cheating but hey it gets the job done)
 
+# Part II
+## The anatomy of a reinforcement learning algorithm
+Consists of three (3) basic parts.
+
+Generate samples (run the policy) --> Fit a model/estimate the return ($G_t$) --> improve the policy . --> Generate samples --> $\dots$
+
+### Policy Gradient
+That is also the basic high level scheme for policy gradients. 
+
+![[Screenshot 2026-02-07 at 8.13.56 AM.png]]
+
+### Improve the policy
+descend dat gradient
+![[Screenshot 2026-02-07 at 8.18.26 AM.png]]
+
+# Part III
+## How to deal with all this expectation?
+$$\mathbb E_{\tau\sim p_\theta(\tau)}\left[\sum_{t=1}^Tr(s_t, a_t)\right]$$
+We can write this expectation out recursively, (using chain rule, expectation follows chain rule)
+$$\mathbb E_{s_1\sim p(s_1)}\left[r(s_1, a_1) +\ \ \ \ \ \ \ \ \ \ \ \ \ \ \|s_1\right]$$
+$$\mathbb E_{s_1\sim p(s_1)}\left[r(s_1, a_1) + \mathbb E_{s_2\sim p(s_2|s_1, a_1)}\left[\mathbb E_{a_2\sim \pi(a_2|s_2)}\left[r(s_2, a_2)+\dots|s_2\right]|s_1, a_1\right] |s_1\right]$$
+![[Screenshot 2026-02-07 at 10.31.16 AM.png]]
+Let's define some function $Q$
+![[Screenshot 2026-02-07 at 10.32.04 AM.png]]
+
+Then we can write our original RL objective as,
+
+![[Screenshot 2026-02-07 at 10.59.07 AM.png]]
+
+So if we find $Q$ it would be *extremely easy* to modify the policy!
+
+This can be expanded to the a more general concept.
+
+## Definition: Q-function
+![[Screenshot 2026-02-07 at 11.00.22 AM.png]]
+
+### Definition: Value Function
+> Closely related
+
+![[Screenshot 2026-02-07 at 11.00.50 AM.png]]
+
+## Using Q & Value Functions
+### Idea 1: If we have a policy $\pi$ and we know $Q^\pi(s, a)$ then we can *improve* $\pi$
+![[Screenshot 2026-02-07 at 11.01.50 AM.png]]
+
+### Idea 2: Compute gradient to increase probability of good actions a:
+![[Screenshot 2026-02-07 at 11.02.19 AM.png]]
+
+# Part IV
 
 ---
 

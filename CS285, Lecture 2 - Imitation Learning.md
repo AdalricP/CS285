@@ -153,7 +153,5 @@ Step 3 is quite problematic, since it may not always be natural for humans. Labe
 - Humans are not good at providing some kinds of actions.
 - Humans can learn autonomously, can our machines do the same? (Emergent behaviours are the most interesting, behaviours *better* than what humans can do? Continuous self improvement wenn)
 
-
-
 ---
 
